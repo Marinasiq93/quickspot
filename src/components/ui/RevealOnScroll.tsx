@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState, ReactNode } from "react";
+import { useEffect, useRef, useState, ReactNode, CSSProperties } from "react";
 
 interface RevealOnScrollProps {
   children: ReactNode;
   className?: string;
+  style?: CSSProperties;
   delay?: number;
   direction?: "up" | "left" | "right" | "none";
 }
 
-export default function RevealOnScroll({ children, className = "", delay = 0, direction = "up" }: RevealOnScrollProps) {
+export default function RevealOnScroll({ children, className = "", style, delay = 0, direction = "up" }: RevealOnScrollProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -25,7 +26,7 @@ export default function RevealOnScroll({ children, className = "", delay = 0, di
   const transforms = { up: "translateY(28px)", left: "translateX(-28px)", right: "translateX(28px)", none: "none" };
 
   return (
-    <div ref={ref} className={className} style={{ opacity: visible ? 1 : 0, transform: visible ? "none" : transforms[direction], transition: `opacity 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${delay}ms, transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${delay}ms`, willChange: "opacity, transform" }}>
+    <div ref={ref} className={className} style={{ opacity: visible ? 1 : 0, transform: visible ? "none" : transforms[direction], transition: `opacity 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${delay}ms, transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94) ${delay}ms`, willChange: "opacity, transform", ...style }}>
       {children}
     </div>
   );
